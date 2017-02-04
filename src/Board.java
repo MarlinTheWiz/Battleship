@@ -4,10 +4,21 @@
  * February 1st, 2017
  */
 
+/**
+ * The board class defines the "canvas" of where the game BattleShip will be played.
+ * It contains any and every value of the board itself
+ * 
+ * @author Marlin Jayasekera - 40033721
+ *
+ */
+
 public class Board {
 	
 	private char[][] board = new char[8][8];
-
+	
+	/**
+	 * 
+	 */
 	public Board(){
 		
 		

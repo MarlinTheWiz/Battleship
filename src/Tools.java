@@ -11,6 +11,7 @@ public class Tools {
 	private static int cShips = 0;
 	private static int cGrenades = 0;
 	private static boolean g = true;
+	private static boolean compG = true;
 	private static int turnSkip = 0;
 	private static Board bShown = new Board();
 	private static Board bHidden = new Board();
@@ -65,7 +66,7 @@ public class Tools {
 			int i = (int) (Math.random() * 8);
 			int j = (int) (Math.random() * 8);
 
-			if(outOfBounds(i, j) && !(bHidden.getBoardValue(i, j) == '-')){
+			if(outOfBounds(i, j) || !(bHidden.getBoardValue(i, j) == '-')){
 				continue;
 			}
 			else{
@@ -79,7 +80,7 @@ public class Tools {
 			int i = (int) (Math.random() * 8);
 			int j = (int) (Math.random() * 8);
 
-			if(outOfBounds(i, j) && !(bHidden.getBoardValue(i, j) == '-')){
+			if(outOfBounds(i, j) || !(bHidden.getBoardValue(i, j) == '-')){
 				continue;
 			}
 			else{
@@ -94,10 +95,17 @@ public class Tools {
 	
 	public static boolean outOfBounds(String p){
 		
-		int i = (int) p.charAt(0) - 65;
-		int j = (int) p.charAt(1) - 49;
+		if(p.length() != 2){
+			return false;
+		}
+		else{
+			int i = (int) p.charAt(0) - 65;
+			int j = (int) p.charAt(1) - 49;
+			
+			return !(i < 8 && j < 8);
+		}
 		
-		return !(i < 8 && j < 8);
+		
 	}
 	
 	public static boolean outOfBounds(int i, int j){
@@ -122,19 +130,6 @@ public class Tools {
 				j = (int) b - 49; // (int) '1' is 49 so the index be 0 - 8
 				
 				switch (bHidden.getBoardValue(i, j)){
-				
-					case 's':
-						bShown.setBoardValue(i, j, bHidden.getBoardValue(i, j));
-						hShips--;
-						System.out.println(bShown);
-						break;
-					case 'g':
-						bShown.setBoardValue(i, j, bHidden.getBoardValue(i, j));
-						hGrenades--;
-						turnSkip++;
-						g = false;
-						System.out.println(bShown);
-						break;
 					case 'S':
 						bShown.setBoardValue(i, j, bHidden.getBoardValue(i, j));
 						cShips--;
@@ -145,6 +140,7 @@ public class Tools {
 						cGrenades--;
 						turnSkip++;
 						System.out.println(bShown);
+						g = false;
 						break;
 					case '-':
 						bShown.setBoardValue(i, j, '*');
@@ -164,42 +160,73 @@ public class Tools {
 		}
 		
 		else{
-			System.out.println("Turn Skipped");
+			System.out.println("Jokes on you, Turn Skipped");
 			g = true;
 		}
 		
 	}
 	
-	public static String compShoot(){
+	public static void compShoot(){
 		
-		int i = (int) (Math.random() * 8);
-		int j = (int) (Math.random() * 8);
-		char a = (char) (i + 65);
-		String p = Character.toString(a) + j;
-		
-		if(Arrays.asList(compP).contains(p) || bShown.getBoardValue(i, j) != '-'){
-			compShoot();
+		if(compG){
+			
+			int i = (int) (Math.random() * 8);
+			int j = (int) (Math.random() * 8);
+			char a = (char) (i + 65);
+			String p = Character.toString(a) + j;
+			
+			if(Arrays.asList(compP).contains(p) || bShown.getBoardValue(i, j) != '-'){
+				battle();
+			}
+			else{
+				
+				switch (bHidden.getBoardValue(i, j)){
+				
+				case 's':
+					bShown.setBoardValue(i, j, bHidden.getBoardValue(i, j));
+					hShips--;
+					System.out.println(bShown);
+					break;
+				case 'g':
+					bShown.setBoardValue(i, j, bHidden.getBoardValue(i, j));
+					hGrenades--;
+					turnSkip++;
+					System.out.println(bShown);
+					compG = false;
+					break;
+				case '-':
+					bShown.setBoardValue(i, j, '*');
+					System.out.println(bShown);
+					break;
+				default:
+					System.out.println("Errors have occured.\nWe won't tell you where or why.\nLazy programmers.");
+			}
+				
+			}
 		}
 		
-		return p;
+		else{
+			System.out.println("My turn has been skipped\nDo not worry, I'll be back\nTo Annihilate");
+			compG = true;
+		}
 	
 	}
 	
-	
-	public static void play(){
-		
-		startGame();
-		
-		while(hShips > 0 || cShips > 0){
+	public static void battle(){
+
+		while(hShips > 0 && cShips > 0){
 						
 			System.out.print("General, Enter the coordinates to shoot your rocket: ");
 			String p = input.nextLine();
 			String pH = p.toUpperCase();
+			if(outOfBounds(pH)){
+				System.out.println("Invalid Input");
+				continue;
+			}
 			System.out.println();
 			shoot(pH);
-			
-			String pC = compShoot();
-			shoot(pC);
+			compShoot();
+			System.out.println(hShips + " h\nc " + cShips);
 			
 		}
 		
@@ -211,6 +238,11 @@ public class Tools {
 		else
 			System.out.println("It's unfortunate.\nYou were not able to win.\nYou are a loser.");
 		
+	}
+	
+	public static void play(){
+		startGame();
+		battle();		
 	}
 
 	
