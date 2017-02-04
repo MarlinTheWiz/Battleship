@@ -1,3 +1,8 @@
+/* Marlin Jayasekera - 40033721
+ * COMP 249
+ * Assignment 1
+ * February 1st, 2017
+ */
 
 import java.util.Scanner;
 import java.util.Arrays;
@@ -17,6 +22,13 @@ public class Tools {
 	private static Board bHidden = new Board();
 	private static String[] compP = new String[10];
 	
+	/**
+	 * Method to place the initial pieces to start the game
+	 * 
+	 * Asks the player positions to place 6 ships and 4 grenades on the Hidden board
+	 * 
+	 * @return Hidden Board
+	 */
 	public static Board startGame(){
 		
 		while(hShips < 6){
@@ -93,6 +105,12 @@ public class Tools {
 		return bHidden;
 	}
 	
+	/**
+	 * Method to check if the position asked exists on the board or if its out of bounds
+	 * 
+	 * @param p Position in letter + number form
+	 * @return Boolean whether it is or isn't out of bounds
+	 */
 	public static boolean outOfBounds(String p){
 		
 		if(p.length() != 2){
@@ -108,11 +126,26 @@ public class Tools {
 		
 	}
 	
+	/**
+	 * 
+	 * Method to check if the index asked exists on the board or if its out of bounds
+	 * 
+	 * @param i Index of Row	
+	 * @param j Index of Column
+	 * @return Boolean whether it is or isn't out of bounds
+	 */
 	public static boolean outOfBounds(int i, int j){
 		
 		return !(i < 8 && j < 8);
 	}
 	
+	/**
+	 * Method for the player to shoot a rocket at given position
+	 * 
+	 * If the player hit a grenade on his previous turn, his turn will be skipped
+	 * 
+	 * @param p Position in letter + number form
+	 */
 	public static void shoot(String p){
 		
 		if(g){
@@ -166,6 +199,13 @@ public class Tools {
 		
 	}
 	
+	/**
+	 * Method for the computer to shoot a rocket at a random position within the board
+	 * that isn't where it placed its pieces
+	 * 
+	 * If the computer hit a grenade on its previous turn, its turn will be skipped 
+	 * 
+	 */
 	public static void compShoot(){
 		
 		if(compG){
@@ -212,6 +252,12 @@ public class Tools {
 	
 	}
 	
+	/**
+	 * Method that calls for the player and the computer to each shoot their rockets 
+	 * on their given turns.
+	 * 
+	 * Announces whether the player wins or loses
+	 */
 	public static void battle(){
 
 		while(hShips > 0 && cShips > 0){
@@ -240,6 +286,9 @@ public class Tools {
 		
 	}
 	
+	/**
+	 * Method to play Battleship
+	 */
 	public static void play(){
 		startGame();
 		battle();		

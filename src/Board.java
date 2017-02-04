@@ -17,7 +17,10 @@ public class Board {
 	private char[][] board = new char[8][8];
 	
 	/**
+	 * Constructor
 	 * 
+	 * Default constructor for board class
+	 * It creates an 8 x 8 grid 
 	 */
 	public Board(){
 		
@@ -29,6 +32,12 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Method to set a character at a certain position on the board
+	 * 
+	 * @param p Position on the grid, must be in the form of capital letter + number
+	 * @param t Character to be placed at said position
+	 */
 	public void setBoard(String p, char t){
 		
 		String x = p.toUpperCase();
@@ -56,7 +65,11 @@ public class Board {
 			System.out.println("Invalid input, Try Again");
 		}
 		
-	
+	/**
+	 * toString() Method
+	 * 
+	 * Prints out the board in a grid pattern
+	 */
 	public String toString(){
 		
 		String b = "";
@@ -78,14 +91,27 @@ public class Board {
 		
 	}
 	
-	public char[][] getBoard() {
-		return board;
-	}
-	
+	/**
+	 * Getter
+	 * 
+	 * Returns the value of the position entered by index
+	 * 
+	 * @param i Index of Row
+	 * @param j Index of Column
+	 * @return Character at asked position
+	 */
 	public char getBoardValue(int i, int j) {
 		return board[i][j];
 	}
 	
+	/**
+	 * Getter
+	 * 
+	 * Returns the value of the position entered in Standard form (letter+number)
+	 * 
+	 * @param p Position
+	 * @return Character at asked position
+	 */
 	public char getBoardValue(String p) {
 		
 		String a = p.toUpperCase();
@@ -95,6 +121,15 @@ public class Board {
 		return board[i][j];
 	}
 	
+	/**
+	 * Setter
+	 * 
+	 * Sets a character at a position on the board 
+	 * 
+	 * @param i Index of Row
+	 * @param j Index of Column
+	 * @param c Character to be set
+	 */
 	public void setBoardValue(int i, int j, char c) {
 		board[i][j] = c;
 	}	
